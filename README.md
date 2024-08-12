@@ -8,5 +8,6 @@ Allows for sending AxiCLI commands to the Axidraw plotter directly from inside o
 You won't have to use Inkscape any more :)
 
 **How do I get started:**
+First go read the stuff I said at https://www.food4rhino.com/en/app/axidraw-control
 Build the project in visual studio to a .GHA and use it inside Grasshopper.
 If you want to contribute, look through the code and submit a pull request for any improvements you have!
