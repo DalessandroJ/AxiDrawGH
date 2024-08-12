@@ -33,7 +33,7 @@ namespace AxiDrawGH
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("Config", "Config", "The filepath to the AxiDraw Configuration file you want to use.", GH_ParamAccess.item);
-            pManager.AddTextParameter("Filepath", "Filepath", "OPTIONAL Folder to save the SVG file to. If left blank, file will be saved to your temp folder and deleted soon after the file begins plotting.", GH_ParamAccess.item);
+            pManager.AddTextParameter("Filepath", "Filepath", "Folder to save the SVG file to. ", GH_ParamAccess.item);
             pManager.AddTextParameter("Name", "Name", "OPTIONAL Name for the SVG file. If left blank, the file will be named with a timestamp. Do not include an extension.", GH_ParamAccess.item);
             pManager.AddBooleanParameter("Run", "Run", "Connect a button to this, click it to execute the plot. When run, uses Rhino's ViewCapture.CaptureToSVG to write ANY VISIBLE CURVES in the ACTIVE VIEWPORT to a .SVG file.", GH_ParamAccess.item);
             pManager.AddRectangleParameter("Paper Rectangle", "Paper", "A rectangle the actual size and orientation of the paper you are plotting on. All the curves to plot should be inside this.", GH_ParamAccess.item);
@@ -45,7 +45,6 @@ namespace AxiDrawGH
             pManager.AddBooleanParameter("Const. Speed", "Const.", "Constant speed makes the pen down movement always the max speed. Pen up travel is still affected by acceleration.", GH_ParamAccess.item, false);
             pManager.AddBooleanParameter("Reorder", "Reorder", "Attempts to reorder the SVG to plot more efficiently with AxiDraw's built in reordering.", GH_ParamAccess.item, false);
 
-            pManager[1].Optional = true;    //filepath is optional
             pManager[2].Optional = true;    //name is optional
         }
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
@@ -198,19 +197,6 @@ namespace AxiDrawGH
                 //-------------------------------------------------------------------------------
                 #region create filepath
 
-                //create the Filepath
-                string directory;
-                if (Params.Input[1].SourceCount == 0) //if no filepath is supplied
-                {
-                    //use temporary file directory
-                    directory = Path.GetTempPath();
-                }
-                else
-                {
-                    //use the custom filepath
-                    directory = customPath;
-                }
-
                 //create the file name
                 string filename;
                 if (Params.Input[2].SourceCount == 0) //if no name is supplied
@@ -227,7 +213,7 @@ namespace AxiDrawGH
                 }
 
                 //concatenate the filepath
-                string filepath = Path.Combine(directory, filename);
+                string filepath = Path.Combine(customPath, filename);
                 #endregion create filepath
 
                 //-------------------------------------------------------------------------------
